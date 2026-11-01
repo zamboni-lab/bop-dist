@@ -1,5 +1,5 @@
 # bop!
-**`bop`** is a standalone executable that takes a precursor compound and a list of observed **MS/MS fragment `m/z` values**, and generates ranked candidate **fragment `SMILES` structures**, posterior probabilities, and a mechanistic explanation of how each fragment ion was formed.
+**`bop`** is a standalone executable that takes a precursor compound and a list of observed **MS/MS fragment `m/z` values**, generates ranked candidate **fragment `SMILES` structures**, posterior probabilities, and a mechanistic explanation of how each fragment ion was formed, and renders **tight, vertically elongated portrait fragmentation trees** (`.svg`, `.png`, `.jpg`/`.jpeg`, `.pdf`, or interactive `.html`).
 
 In day-to-day workflow, **`bop`** addresses the same problem as **ChemFrag**, **MetFrag**, **MS-FINDER**, or **CFM-ID**: given a known or candidate precursor molecule and a list of experimental MS²/MS³ fragment $m/z$ peaks, it assigns chemical structures (`SMILES`) and confidence scores to each peak. However, instead of heuristic rule tables or purely combinatorial graph cutting, `bop` is built on a **first-principles quantum-chemical and molecular dynamics engine** inspired by [QCxMS](https://xtb-docs.readthedocs.io/en/latest/qcxms_doc/qcxms.html) and other seminal work by the group of Stefan Grimme (University of Bonn).
 
@@ -16,20 +16,23 @@ Everything is self-contained inside `bop.exe` (Windows), `bop` (Linux / WSL2), a
 # Windows (PowerShell / CMD):
 .\bop.exe -c "NC(=O)NCCCC(N)C(=O)O" -m "159.0764, 158.0924, 141.0659, 116.0706, 113.0709, 70.0651"
 
+# Also write a tight portrait fragmentation tree depiction (.svg, .png, or .jpg):
+.\bop.exe -c "NC(=O)NCCCC(N)C(=O)O" -m "159.0764, 158.0924, 141.0659, 116.0706, 113.0709, 70.0651" -d citrulline.png
+
 # Linux / WSL2 (Bash):
 chmod +x ./bop
-./bop -c "NC(=O)NCCCC(N)C(=O)O" -m "159.0764, 158.0924, 141.0659, 116.0706, 113.0709, 70.0651"
+./bop -c "NC(=O)NCCCC(N)C(=O)O" -m "159.0764, 158.0924, 141.0659, 116.0706, 113.0709, 70.0651" -d citrulline.svg
 
 # macOS Apple Silicon / ARM64 (zsh / bash):
 chmod +x ./bop-macos-arm
-./bop-macos-arm -c "NC(=O)NCCCC(N)C(=O)O" -m "159.0764, 158.0924, 141.0659, 116.0706, 113.0709, 70.0651"
+./bop-macos-arm -c "NC(=O)NCCCC(N)C(=O)O" -m "159.0764, 158.0924, 141.0659, 116.0706, 113.0709, 70.0651" -d citrulline.jpg
 ```
 
 ### Example Output
 
 ```text
 ============================================================================
-  BOP! v0.3.2 (c) Zamboni Lab. Non-commercial use & testing only.
+  BOP! v0.3.3 (c) Zamboni Lab. Non-commercial use & testing only.
 ============================================================================
   Precursor : CC(=O)Oc1ccccc1C(=O)O  (C9H8O4, [M+H]+ m/z = 181.04954)
 ----------------------------------------------------------------------------
@@ -76,8 +79,9 @@ Options:
   -n, --ntraj <NTRAJ>        Number of parallel 3D GFN2-xTB Born-Oppenheimer MD trajectories [default: 100]
   -t, --tol <TOL>            Mass matching tolerance in Daltons (Da) [default: 0.05]
   -k, --top-k <TOP_K>        Maximum number of candidate SMILES structures to report per fragment m/z [default: 3]
-  -F, --format <FORMAT>      Output format: "default" (screen table), "csv", or "json" [default: default] [possible values: default, csv, json]
-  -o, --out <OUT>            Optional output file path (writes to stdout if omitted)
+  -F, --format <FORMAT>      Output format: "default", "csv", "json", "svg", "png", "jpg", "jpeg", "pdf", "html", "dot", or "mermaid" [default: default]
+  -o, --out <OUT>            Optional output file path (auto-detects .svg, .png, .jpg, .jpeg, .pdf, .html, .dot, .mmd)
+  -d, --depict <DEPICT>      Optional file path to write a tight portrait fragmentation tree depiction (.svg, .png, .jpg, .jpeg, .pdf, .html)
   -h, --help                 Print help
   -V, --version              Print version
 ```
@@ -116,13 +120,18 @@ Analyze negative-mode `[M-H]-` fragments of **α-Aminoadipic acid**:
 .\bop.exe -c "NC(CCCC(=O)O)C(=O)O" --adduct "[M-H]-" -m "142.0504, 116.0712, 98.0606"
 ```
 
-### Example 6: Export as `.csv` or `.json`
+### Example 6: Export as `.csv`, `.json`, or Portrait Depiction (`.svg`, `.png`, `.jpg`)
 ```powershell
 # Comma-separated values (.csv) saved to a file:
 .\bop.exe -c "NC(=O)NCCCCC(N)C(=O)O" -m "173.0921, 147.1128, 130.0863, 84.0808" --format csv -o homocitrulline_fragments.csv
 
 # Structured JSON output:
 .\bop.exe -c "O=C(O)C1CCCN1" -m "70.0651" --format json -o proline_fragments.json
+
+# Tight, vertically elongated portrait fragmentation tree depictions (.svg, .png, .jpg):
+.\bop.exe -c "CC(=O)Oc1ccccc1C(=O)O" -m "163.0390, 139.0390, 121.0284, 93.0335" -d aspirin_tree.svg
+.\bop.exe -c "CC(=O)Oc1ccccc1C(=O)O" -m "163.0390, 139.0390, 121.0284, 93.0335" -d aspirin_tree.png
+.\bop.exe -c "CC(=O)Oc1ccccc1C(=O)O" -m "163.0390, 139.0390, 121.0284, 93.0335" -d aspirin_tree.jpg
 ```
 
 ### Example 7: Sodiated `[M+Na]+` Precursors
