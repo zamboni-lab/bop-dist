@@ -32,32 +32,31 @@ chmod +x ./bop-macos-arm
 
 ```text
 ============================================================================
-  BOP! v0.3.3 (c) Zamboni Lab. Non-commercial use & testing only.
+  BOP! v1.0.9 (c) Zamboni Lab. Non-commercial use & testing only.
 ============================================================================
-  Precursor : CC(=O)Oc1ccccc1C(=O)O  (C9H8O4, [M+H]+ m/z = 181.04954)
+  Precursor : O=C(C)Oc1ccccc1C(O)=O  (C9H8O4, [M+H]+ m/z = 181.04954)
 ----------------------------------------------------------------------------
 
 Fragment m/z 180.0499
-  [1] [O+]=C(c1ccccc1OC(C)=O)O      # C9H8O4+ | exact m/z=180.04171 (+8.2 mDa, +45.5 ppm, conf=100.0%) | Precursor -H.: homolytic H-atom radical loss
+  [1] [O+]=C(C)Oc1ccccc1C(O)=O      # C9H8O4+ | exact m/z=180.04171 (+8.2 mDa, +45.5 ppm, conf=100.0%) | Precursor -H.: homolytic H-atom radical loss
 
 Fragment m/z 163.0390
-  [1] [O+]#Cc1ccccc1OC(C)=O         # C9H7O3+ | exact m/z=163.03897 (+0.0 mDa, +0.2 ppm, conf=61.5%) | Precursor -H2O: 1,2/1,3 through-space dehydration (from O13); acylium triple-bond closure (-C#[O+])
-  [2] [CH2+][C]Oc1ccccc1C(=O)O      # C9H7O3+ | exact m/z=163.03897 (+0.0 mDa, +0.2 ppm, conf=21.8%) | Precursor -H2O regioisomer: 1,2/1,3 through-space dehydration (from O3 on C2)
-  [3] [CH2+]C(=O)Oc1ccccc1[C]O      # C9H7O3+ | exact m/z=163.03897 (+0.0 mDa, +0.2 ppm, conf=16.7%) | Precursor -H2O regioisomer: 1,2/1,3 through-space dehydration (from O12 on C11)
+  [1] [O+]#Cc1c(cccc1)OC(=O)C       # C9H7O3+ | exact m/z=163.03897 (+0.0 mDa, +0.2 ppm, conf=75.7%) | Precursor -H2O: 1,2/1,3 through-space dehydration (from O6); acylium triple-bond closure (-C#[O+])
+  [2] [c+]1c(c(ccc1)[C]O)OC(=O)C    # C9H7O3+ | exact m/z=163.03897 (+0.0 mDa, +0.2 ppm, conf=13.6%) | Precursor -H2O regioisomer: 1,2/1,3 through-space dehydration (from O11 on C12)
+  [3] [c+]1c(c(ccc1)C(O)=O)O[C]C    # C9H7O3+ | exact m/z=163.03897 (+0.0 mDa, +0.2 ppm, conf=10.7%) | Precursor -H2O regioisomer: 1,2/1,3 through-space dehydration (from O2 on C3)
 
 Fragment m/z 138.0311
-  [1] [O+]=C(c1ccccc1O)O            # C7H6O3+ | exact m/z=138.03115 (-0.0 mDa, -0.3 ppm, conf=91.8%) | MD bond rupture of C2-O4 (+1H)
-  [2] [OH+]=C([C]([CH])[C](O[CH])[CH][CH])O  # C7H6O3+ | exact m/z=138.03115 (-0.0 mDa, -0.3 ppm, conf=8.2%) | 4-bond cleavage breaking [C1-C2, C2-O3, C7-C8, C8-C9] (+2H)
+  [1] [OH+]c1ccccc1C(O)=O           # C7H6O3+ | exact m/z=138.03115 (-0.0 mDa, -0.3 ppm, conf=100.0%) | MD bond rupture of C3-O13 (+1H)
 
 Fragment m/z 121.0284
-  [1] [c+]1ccccc1C(=O)O             # C7H5O2+ | exact m/z=121.02841 (-0.0 mDa, -0.0 ppm, conf=60.5%) | MD bond rupture of O4-C5 (+0H)
-  [2] [O+]#COc1ccccc1               # C7H5O2+ | exact m/z=121.02841 (-0.0 mDa, -0.1 ppm, conf=24.0%) | Precursor -CH3COOH: McLafferty / 1,2-acetic acid elimination (from C1, C11, O12, O13); acylium triple-bond closure (-C#[O+])
-  [3] [O+]#Cc1ccccc1O               # C7H5O2+ | exact m/z=121.02841 (-0.0 mDa, -0.0 ppm, conf=15.6%) | Secondary cascade: 1-bond cleavage of C2-O3 (-1H) followed by -CH2CO (ketene elimination) -> acylium triple-bond closure (-C#[O+])
+  [1] [c+]1ccccc1C(O)=O             # C7H5O2+ | exact m/z=121.02841 (-0.0 mDa, -0.0 ppm, conf=72.2%) | MD bond rupture of C4-O13 (+0H)
+  [2] [O+]#COc1ccccc1               # C7H5O2+ | exact m/z=121.02841 (-0.0 mDa, -0.1 ppm, conf=21.5%) | Precursor -CH3COOH: McLafferty / 1,2-acetic acid / ketol C2H4O2 elimination (from O6, C9, O11, C12); acylium triple-bond closure (-C#[O+])
+  [3] [c+]1cc(ccc1)C(O)=O           # C7H5O2+ | exact m/z=121.02841 (-0.0 mDa, -0.0 ppm, conf=6.3%) | Secondary cascade: 1-bond cleavage of O13-C3 (+2H) followed by -H2O (dehydration)
 
 Fragment m/z 93.0335
-  [1] [c+]1ccccc1O                  # C6H5O+ | exact m/z=93.03349 (+0.0 mDa, +0.1 ppm, conf=88.0%) | Secondary cascade: 1-bond cleavage of O4-C2 (+0H) followed by -CO2 (decarboxylation)
-  [2] O=C1C=CC=[CH+]C1              # C6H5O+ | exact m/z=93.03349 (+0.0 mDa, +0.1 ppm, conf=7.1%) | Skeletal rearrangement to phenoxy [C6H5O]+ ion
-  [3] [CH2+][C]O[C][CH][CH][CH]     # C6H5O+ | exact m/z=93.03349 (+0.0 mDa, +0.1 ppm, conf=4.9%) | 2-bond cross-ring cleavage of C8-C9 and C5-C10 (+1H) followed by -H2O
+  [1] [c+]1c(cccc1)O                # C6H5O+ | exact m/z=93.03349 (+0.0 mDa, +0.1 ppm, conf=86.3%) | Precursor -CH3OH-2CO: sequential methanol + double decarbonylation (from O2, C3, O6, C9, O11, C12)
+  [2] O=C1C=CC=[CH+]C1              # C6H5O+ | exact m/z=93.03349 (+0.0 mDa, +0.1 ppm, conf=7.8%) | Skeletal rearrangement to phenoxy [C6H5O]+ ion
+  [3] [CH+]([C]O[C]C)[CH][C]        # C6H5O+ | exact m/z=93.03349 (+0.0 mDa, +0.1 ppm, conf=5.9%) | 2-bond cross-ring cleavage of C4-C10 and C5-C8 (+1H) followed by -H2O
 ```
 
 ---
@@ -76,7 +75,7 @@ Options:
   -f, --mz-file <MZ_FILE>    Optional file containing fragment m/z values (one per line, CSV/TSV, or MSP/MGF peak list)
   -a, --adduct <ADDUCT>      Precursor adduct / ionization mode [default: [M+H]+] (supports [M+H]+, [M-H]-, [M+Na]+, [M]+., etc.)
   -e, --energies <ENERGIES>  CID collision energies in eV or V [default: 14,18,24]
-  -n, --ntraj <NTRAJ>        Number of parallel 3D GFN2-xTB Born-Oppenheimer MD trajectories [default: 100]
+  -n, --ntraj <NTRAJ>        Number of parallel 3D GFN2-xTB Born-Oppenheimer MD trajectories [default: 0]
   -t, --tol <TOL>            Mass matching tolerance in Daltons (Da) [default: 0.05]
   -k, --top-k <TOP_K>        Maximum number of candidate SMILES structures to report per fragment m/z [default: 3]
   -F, --format <FORMAT>      Output format: "default", "csv", "json", "svg", "png", "jpg", "jpeg", "pdf", "html", "dot", or "mermaid" [default: default]
@@ -139,3 +138,14 @@ Analyze negative-mode `[M-H]-` fragments of **α-Aminoadipic acid**:
 # Sodiated [M+Na]+ precursor with cross-ring & metal-salt eliminations:
 .\bop.exe -c "OCC1OC(O)C(O)C(O)C1O" --adduct "[M+Na]+" -m "203.0526, 185.0420, 143.0315, 83.0104"
 ```
+
+---
+
+## When to Use `--ntraj 0` (Default) vs. `--ntraj > 1` (`24`–`100`)
+
+By default, `bop` uses **`--ntraj 0`**, which evaluates slow ergodic CID/HCD fragmentation via the analytical RRKM + Baldwin + charge-directed cascade on the 3D `GFN2-xTB` potential energy surface without stochastic MD trajectory noise (faster and slightly higher CID cosine).
+
+Passing **`--ntraj 24` to `100`** (`-n 24` or `-n 100`) performs Monte Carlo ensemble integration over:
+1. **Internal Energy Distribution $P(E_{\text{IEE}})$**: Integrates across low-energy (intact precursor), medium-energy (primary cleavage), and high-energy (secondary cascade) trajectories while suppressing Monte Carlo shot noise ($\propto 1/\sqrt{N_{\text{traj}}}$).
+2. **Localized Impact / Orbital Excitation (`velof`)**: Captures non-ergodic homolytic bond ruptures and flexible alkyl/lipid chain cleavages across nearly isoenergetic $\text{C}-\text{C}$ bonds.
+3. **3D Velocity Phases & Dynamic Through-Space H-Migrations**: Samples 3D thermal velocity vectors and explicit post-rupture hydrogen transfers.
