@@ -138,14 +138,3 @@ Analyze negative-mode `[M-H]-` fragments of **α-Aminoadipic acid**:
 # Sodiated [M+Na]+ precursor with cross-ring & metal-salt eliminations:
 .\bop.exe -c "OCC1OC(O)C(O)C(O)C1O" --adduct "[M+Na]+" -m "203.0526, 185.0420, 143.0315, 83.0104"
 ```
-
----
-
-## When to Use `--ntraj 0` (Default) vs. `--ntraj > 1` (`24`–`100`)
-
-By default, `bop` uses **`--ntraj 0`**, which evaluates slow ergodic CID/HCD fragmentation via the analytical RRKM + Baldwin + charge-directed cascade on the 3D `GFN2-xTB` potential energy surface without stochastic MD trajectory noise (faster and slightly higher CID cosine).
-
-Passing **`--ntraj 24` to `100`** (`-n 24` or `-n 100`) performs Monte Carlo ensemble integration over:
-1. **Internal Energy Distribution $P(E_{\text{IEE}})$**: Integrates across low-energy (intact precursor), medium-energy (primary cleavage), and high-energy (secondary cascade) trajectories while suppressing Monte Carlo shot noise ($\propto 1/\sqrt{N_{\text{traj}}}$).
-2. **Localized Impact / Orbital Excitation (`velof`)**: Captures non-ergodic homolytic bond ruptures and flexible alkyl/lipid chain cleavages across nearly isoenergetic $\text{C}-\text{C}$ bonds.
-3. **3D Velocity Phases & Dynamic Through-Space H-Migrations**: Samples 3D thermal velocity vectors and explicit post-rupture hydrogen transfers.
