@@ -17,7 +17,7 @@
 | :--- | :--- | :--- |
 | `bop.exe` | Windows x86-64 | Self-contained licensed CLI (`v1.1.7`: `annotate`, `predict`, `activate`, `deactivate`, `status`, `--depict`) |
 | `bop` | Linux x86-64 / WSL2 | Self-contained licensed CLI (`v1.1.7`: `annotate`, `predict`, `activate`, `deactivate`, `status`, `--depict`) |
-| `bop-macos-arm` | macOS Apple Silicon | Self-contained licensed CLI (`v1.1.7`; pending rebuild for SMILES-only `predict` & updated prior key) |
+| `bop-macos-arm` | macOS Apple Silicon | Self-contained licensed CLI (`v1.1.7`: `annotate`, `predict`, `activate`, `deactivate`, `status`, `--depict`) |
 
 `bop.exe`, `bop`, and `bop-macos-arm` are single self-contained executables requiring no external data or model files.
 
