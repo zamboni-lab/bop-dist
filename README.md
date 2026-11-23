@@ -28,8 +28,8 @@
 Use `bop status` to inspect active license details and live daily quota usage:
 
 - **Unlicensed (Public Free Mode, no `bop.lic`)**:
-  - Allows **`annotate` only** for **1 compound at a time** (by SMILES or single-compound `.mol`/`.sdf`/`.xyz` file, default CID mode, `--geom 3d`), with a fixed **60-second delay**.
-  - Fails closed (exit code `77`) on `predict`, batch inputs (`--input`, multi-record `.sdf`), `--formula`, `--precursor-mz`, `.msp.zip`, `.lib3`, `--msn`, and `--2d`/`--geom 2d`.
+  - Allows **`annotate` only** for **1 compound at a time** (by SMILES or single-compound `.mol`/`.sdf`/`.xyz` file, default CID mode), with a fixed **60-second delay**.
+  - Fails closed (exit code `77`) on `predict`, batch inputs (`--input`, multi-record `.sdf`), `--formula`, `--precursor-mz`, `.msp.zip`, `.lib3`, and `--msn`.
 - **Licensed (`bop.lic` via `bop activate`)**:
   - Unlocks `predict` (SMILES, SMILES list, or `.csv` with SMILES), large-scale batch `annotate` and `predict` with no 60-second delay, closed-world `PubChem` isomer retrieval (`annotate --formula`, `annotate --precursor-mz`), NIST ZIP64 `.msp.zip` and `masster`-compatible `SQLite3` `.lib3` spectral library export, `--depict`, and multi-stage `--msn` pipelines according to server-enforced quotas and policy limits.
 
