@@ -3,7 +3,7 @@
 **`bop`** (`BOP! v1.1.7`) is a standalone tandem mass spectrometry CLI combining five top-level commands:
 
 - **`annotate`**: Takes a precursor compound (SMILES, 2D/3D `.mol`/`.sdf`, 3D `.xyz`, batch `.smi`/`.txt`/`.tsv`/`.csv`/`.sdf` file, or a licensed closed-world `PubChem` lookup via `--formula` or `--precursor-mz`) together with observed MS/MS fragment `m/z` values, and outputs ranked candidate fragment SMILES structures, elemental formulas, mass errors, and confidence scores.
-- **`predict`**: Generates CID MS/MS spectra across user-specified collision energies (`-e`/`--energy`) from a compound, batch file, or closed-world **`PubChem`** isomers supplied by the licensing server (`--formula` or `--precursor-mz`).
+- **`predict`**: Generates CID MS/MS spectra across user-specified collision energies (`-e`/`--energy`) from a SMILES string, a list of SMILES, or a `.csv` file with SMILES.
 - **`--depict`** (`-d`, available on both `annotate` and `predict`): Renders tight, vertically elongated **portrait fragmentation trees** to `.svg`, `.png`, `.jpg`/`.jpeg`, `.pdf`, `.html`, `.dot`, or `.mmd` (emitting `<stem>_0001.<ext>`, etc. for batch/isomer sets).
 - **`activate`**, **`deactivate`** (alias `reset`), **`status`**: Claims a one-time license token (`<host:port>/<64-hex-secret>`) into `bop.lic`, inspects active licensing status, and removes local license files.
 
@@ -31,7 +31,7 @@ Use `bop status` to inspect active license details and live daily quota usage:
   - Allows **`annotate` only** for **1 compound at a time** (by SMILES or single-compound `.mol`/`.sdf`/`.xyz` file, default CID mode, `--geom 3d`), with a fixed **60-second delay**.
   - Fails closed (exit code `77`) on `predict`, batch inputs (`--input`, multi-record `.sdf`), `--formula`, `--precursor-mz`, `.msp.zip`, `.lib3`, `--msn`, and `--2d`/`--geom 2d`.
 - **Licensed (`bop.lic` via `bop activate`)**:
-  - Unlocks `predict`, large-scale batch `annotate` and `predict` with no 60-second delay, closed-world `PubChem` isomer retrieval (`--formula`, `--precursor-mz`), NIST ZIP64 `.msp.zip` and `masster`-compatible `SQLite3` `.lib3` spectral library export, `--depict`, and multi-stage `--msn` pipelines according to server-enforced quotas and policy limits.
+  - Unlocks `predict` (SMILES, SMILES list, or `.csv` with SMILES), large-scale batch `annotate` and `predict` with no 60-second delay, closed-world `PubChem` isomer retrieval (`annotate --formula`, `annotate --precursor-mz`), NIST ZIP64 `.msp.zip` and `masster`-compatible `SQLite3` `.lib3` spectral library export, `--depict`, and multi-stage `--msn` pipelines according to server-enforced quotas and policy limits.
 
 ---
 
@@ -62,11 +62,11 @@ chmod +x ./bop
 # Predict multi-energy CID spectra for a SMILES string -> .msp.zip + portrait tree depiction:
 .\bop.exe predict -c "CC(=O)Oc1ccccc1C(=O)O" -e 15,25,40 -o aspirin.msp.zip -d aspirin_pred.svg
 
-# Predict closed-world PubChem isomers for a formula -> SQLite3 .lib3 + depictions:
-.\bop.exe predict --formula C9H8O4 -e 20,35 --include-frag-smiles -o c9h8o4.lib3 -d c9h8o4_pred.svg
+# Predict spectra for an inline list of SMILES -> SQLite3 .lib3 + depictions:
+.\bop.exe predict "CC(=O)Oc1ccccc1C(=O)O" "CN1C=NC2=C1C(=O)N(C(=O)N2C)C" -e 20,35 --include-frag-smiles -o list.lib3 -d list_pred.svg
 
-# Predict from precursor m/z:
-.\bop.exe predict --precursor-mz 181.04954 --polarity pos -e 20 -o cand.lib3
+# Predict spectra from a CSV file containing SMILES -> SQLite3 .lib3:
+.\bop.exe predict --input compounds.csv -e 20 -o cand.lib3
 ```
 
 ### 4. Licensed Batch & Structure `annotate`
@@ -140,14 +140,11 @@ Options:
 ### `bop predict` Key Options
 
 ```text
-  -c, --compound <COMPOUND>              SMILES or structure file (.mol, .sdf, .xyz)
-      --input <INPUT>                    Batch compound file (.smi, .txt, .tsv, .csv, .mol, .sdf, .xyz)
-      --formula <FORMULA>                Precursor formula for closed-world PubChem lookup via server
-      --precursor-mz <PRECURSOR_MZ>      Precursor m/z for closed-world PubChem lookup via server
+  -c, --compound <COMPOUND>              SMILES string, comma/newline-separated SMILES list, or .smi/.csv path
+      --input <INPUT>                    Batch SMILES list (.smi, .txt) or CSV file with SMILES (.csv)
   -e, --energy <ENERGY>                  Comma-separated CID collision energies (V / eV) [default: 20]
   -a, --adduct <ADDUCT>                  Precursor adduct(s)
       --polarity <POLARITY>              pos, neg, both, ei [default: pos]
-      --max-isomers <COUNT>              Max PubChem isomers retrieved per query [default: 500]
       --limit <LIMIT>                    Optional cap on total compounds processed
       --no-isotopes                      Disable M+1 / M+2 natural isotope envelopes
       --include-frag-smiles              Include fragment SMILES annotations in exports and depictions
