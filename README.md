@@ -17,7 +17,7 @@
 | :--- | :--- | :--- |
 | `bop.exe` | Windows x86-64 | Self-contained licensed CLI (`v1.1.7`: `annotate`, `predict`, `activate`, `deactivate`, `status`, `--depict`) |
 | `bop` | Linux x86-64 / WSL2 | Self-contained licensed CLI (`v1.1.7`: `annotate`, `predict`, `activate`, `deactivate`, `status`, `--depict`) |
-| `bop-macos-arm` | macOS Apple Silicon | Self-contained licensed CLI (unified CLI; pending `v1.1.7` rebuild) |
+| `bop-macos-arm` | macOS Apple Silicon | Self-contained licensed CLI (`v1.1.7`; pending rebuild for SMILES-only `predict` & updated prior key) |
 
 `bop.exe`, `bop`, and `bop-macos-arm` are single self-contained executables requiring no external data or model files.
 
@@ -110,7 +110,7 @@ Options:
 
 - `bop activate <TOKEN> [-o, --out <OUT>]`: Save the claimed certificate to a custom path (defaults to `--license` or `./bop.lic`).
 - `bop deactivate [-f, --file <FILE>]` (alias `bop reset`): Remove the specified or discovered local certificate file.
-- `bop status`: Print active mode, certificate metadata, daily query usage and remaining quota, servers, and enabled features.
+- `bop status`: Print active mode, license details, live or cached daily/total query usage and remaining quota, expiry, and servers.
 
 ### `bop annotate` Key Options
 
@@ -139,9 +139,11 @@ Options:
 
 ### `bop predict` Key Options
 
+Accepts positional SMILES arguments (`bop predict SMILES1 SMILES2 ...`), `-c`/`--compound`, or `--input`:
+
 ```text
-  -c, --compound <COMPOUND>              SMILES string, comma/newline-separated SMILES list, or .smi/.csv path
-      --input <INPUT>                    Batch SMILES list (.smi, .txt) or CSV file with SMILES (.csv)
+  -c, --compound <COMPOUND>              SMILES string, comma/newline-separated SMILES list, or .smi/.csv path [aliases: -s, --smiles]
+  -i, --input <INPUT>                    Batch SMILES list (.smi, .txt) or CSV file with SMILES (.csv)
   -e, --energy <ENERGY>                  Comma-separated CID collision energies (V / eV) [default: 20]
   -a, --adduct <ADDUCT>                  Precursor adduct(s)
       --polarity <POLARITY>              pos, neg, both, ei [default: pos]
