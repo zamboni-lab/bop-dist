@@ -7,3 +7,6 @@ target/
 *.pdb
 *.d
 *.pdf
+
+# Local license certificates
+bop.lic
