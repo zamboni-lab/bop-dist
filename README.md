@@ -3,7 +3,7 @@
 **`bop`** (`BOP! v1.1.7`) is a standalone tandem mass spectrometry CLI combining five top-level commands:
 
 - **`annotate`**: Takes a precursor compound (SMILES, 2D/3D `.mol`/`.sdf`, 3D `.xyz`, batch `.smi`/`.txt`/`.tsv`/`.csv`/`.sdf` file, or a licensed closed-world `PubChem` lookup via `--formula` or `--precursor-mz`) together with observed MS/MS fragment `m/z` values, and outputs ranked candidate fragment SMILES structures, elemental formulas, mass errors, and confidence scores.
-- **`predict`**: Generates MS/MS spectra for CID (and licensed alternative activation methods) across user-specified collision energies (`-e`/`--energy`) from a compound, batch file, or closed-world **`PubChem`** isomers supplied by the licensing server (`--formula` or `--precursor-mz`).
+- **`predict`**: Generates CID MS/MS spectra across user-specified collision energies (`-e`/`--energy`) from a compound, batch file, or closed-world **`PubChem`** isomers supplied by the licensing server (`--formula` or `--precursor-mz`).
 - **`--depict`** (`-d`, available on both `annotate` and `predict`): Renders tight, vertically elongated **portrait fragmentation trees** to `.svg`, `.png`, `.jpg`/`.jpeg`, `.pdf`, `.html`, `.dot`, or `.mmd` (emitting `<stem>_0001.<ext>`, etc. for batch/isomer sets).
 - **`activate`**, **`deactivate`** (alias `reset`), **`status`**: Claims a one-time license token (`<host:port>/<64-hex-secret>`) into `bop.lic`, inspects active licensing status, and removes local license files.
 
@@ -23,15 +23,15 @@
 
 ---
 
-## Licensing & Active Mode Log
+## Licensing & Execution Modes
 
-Every run prints its active licensing state to `stderr` (`[bop] License: ...`):
+Use `bop status` to inspect active license details and live daily quota usage:
 
 - **Unlicensed (Public Free Mode, no `bop.lic`)**:
   - Allows **`annotate` only** for **1 compound at a time** (by SMILES or single-compound `.mol`/`.sdf`/`.xyz` file, default CID mode, `--geom 3d`), with a fixed **60-second delay**.
-  - Fails closed (exit code `77`) on `predict`, batch inputs (`--input`, multi-record `.sdf`), `--formula`, `--precursor-mz`, `.msp.zip`, `.lib3`, `--msn`, non-`cid` `--method`, and `--2d`/`--geom 2d`.
+  - Fails closed (exit code `77`) on `predict`, batch inputs (`--input`, multi-record `.sdf`), `--formula`, `--precursor-mz`, `.msp.zip`, `.lib3`, `--msn`, and `--2d`/`--geom 2d`.
 - **Licensed (`bop.lic` via `bop activate`)**:
-  - Unlocks `predict`, large-scale batch `annotate` and `predict` with no 60-second delay, closed-world `PubChem` isomer retrieval (`--formula`, `--precursor-mz`), NIST ZIP64 `.msp.zip` and `masster`-compatible `SQLite3` `.lib3` spectral library export, `--depict`, all activation methods (`cid`, `hcd`, `it-cid`, `ead`, `exd`, `eid`, `ei`, `ecd`, `etd`, `uvpd`), and multi-stage `--msn` pipelines according to server-enforced quotas and policy limits.
+  - Unlocks `predict`, large-scale batch `annotate` and `predict` with no 60-second delay, closed-world `PubChem` isomer retrieval (`--formula`, `--precursor-mz`), NIST ZIP64 `.msp.zip` and `masster`-compatible `SQLite3` `.lib3` spectral library export, `--depict`, and multi-stage `--msn` pipelines according to server-enforced quotas and policy limits.
 
 ---
 
@@ -123,14 +123,11 @@ Options:
   -f, --mz-file <MZ_FILE>                Peak list file (.txt, .csv, .tsv, .mgf, .msp)
   -a, --adduct <ADDUCT>                  Precursor adduct(s) (e.g. "[M+H]+", "[M-H]-", "[M+Na]+")
       --polarity <POLARITY>              Ion polarity when --adduct is omitted (pos, neg, both, ei)
-      --formula-scope <FORMULA_SCOPE>    Elemental formula scope for --precursor-mz [default: common]
-      --max-inferred-formulas <COUNT>    Max candidate formulas per --precursor-mz query [default: 5]
       --max-isomers <COUNT>              Max PubChem isomers retrieved per query [default: 500]
       --limit <LIMIT>                    Optional cap on total compounds processed
       --geom <GEOM>                      auto, 2d, 3d [default: 3d; unlicensed: 3d only]
       --2d / --3d                        Force 2D (licensed) or 3D input geometry
-      --method <METHOD>                  cid, hcd, it-cid, ead, exd, eid, ei, ecd, etd, uvpd [default: cid]
-  -e, --energies <ENERGIES>              Collision energies (eV / V / nm) [default: 14,18,24]
+  -e, --energies <ENERGIES>              CID collision energies (eV / V) [default: 20,30,40]
       --msn <MSN>                        Multi-stage pipeline (e.g. "CID 25 @ 159.08 -> CID 30"; licensed)
   -t, --tol <TOL>                        Mass matching tolerance in Daltons [default: 0.05]
   -k, --top-k <TOP_K>                    Max candidate structures per fragment m/z [default: 3]
@@ -150,13 +147,8 @@ Options:
   -e, --energy <ENERGY>                  Comma-separated CID collision energies (V / eV) [default: 20]
   -a, --adduct <ADDUCT>                  Precursor adduct(s)
       --polarity <POLARITY>              pos, neg, both, ei [default: pos]
-      --formula-scope <FORMULA_SCOPE>    Elemental formula scope for --precursor-mz [default: common]
-      --max-inferred-formulas <COUNT>    Max candidate formulas per --precursor-mz query [default: 5]
       --max-isomers <COUNT>              Max PubChem isomers retrieved per query [default: 500]
       --limit <LIMIT>                    Optional cap on total compounds processed
-      --geom <GEOM>                      auto, 2d, 3d [default: 3d]
-      --2d / --3d                        Force 2D or 3D input geometry
-      --method <METHOD>                  cid, hcd, it-cid, ead, exd, eid, ei, ecd, etd, uvpd [default: cid]
       --no-isotopes                      Disable M+1 / M+2 natural isotope envelopes
       --include-frag-smiles              Include fragment SMILES annotations in exports and depictions
   -F, --format <FORMAT>                  default, table, msp, msp.zip, lib3, mgf, csv, json, svg, png, jpg, jpeg, pdf, html, dot, mermaid
